@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *file;
+
+    file = fopen("C:/Users/hi/OneDrive/Desktop/OS/os1.txt", "w");
+    if (file == NULL) {
+        perror("Error opening file for writing");
+        return 1;
+    }
+    fprintf(file, "This is a sample file for file management operations.\n");
+    fprintf(file, "It demonstrates creating, writing, reading, appending, and deleting files.\n");
+    fclose(file);
+
+    file = fopen("C:/Users/hi/OneDrive/Desktop/OS/os1.txt", "r");
+    if (file == NULL) {
+        perror("Error opening file for reading");
+        return 1;
+    }
+    char line[256];
+    printf("File contents:\n");
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+    fclose(file);
+
+    file = fopen("C:/Users/hi/OneDrive/Desktop/OS/os1.txt", "a");
+    if (file == NULL) {
+        perror("Error opening file for appending");
+        return 1;
+    }
+    fprintf(file, "This is the appended line.\n");
+    fclose(file);
+
+    file = fopen("C:/Users/hi/OneDrive/Desktop/OS/os1.txt", "r");
+    if (file == NULL) {
+        perror("Error opening file for reading");
+        return 1;
+    }
+    printf("\nFile contents after appending:\n");
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+    fclose(file);
+
+    if (remove("file_management.txt") == 0) {
+        printf("\nFile successfully deleted.\n");
+    } else {
+        perror("Error deleting the file");
+        return 1;
+    }
+
+    return 0;
+}
