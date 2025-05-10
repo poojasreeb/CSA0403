@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+    char filename[100];
+
+    printf("Enter filename: ");
+    scanf("%s", filename);
+
+    printf("\nFile permissions for %s:\n", filename);
+    printf("--------------------------------\n");
+
+    char command[150];
+    sprintf(command, "ls -l %s", filename);
+    system(command);
+
+    return 0;
+}
