@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+#define MAX_BLOCKS 100
+
+typedef struct Block {
+    int data;
+    int next;
+} Block;
+
+int main() {
+    Block disk[MAX_BLOCKS];
+    int n, i;
+    int start, end;
+
+    printf("Enter number of blocks in the file: ");
+    scanf("%d", &n);
+
+    printf("Enter block numbers (in order of linkage):\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &disk[i].data);
+    }
+
+    for (i = 0; i < n - 1; i++) {
+        disk[i].next = i + 1;
+    }
+    disk[n - 1].next = -1;
+
+    start = 0;
+    end = n - 1;
+
+    printf("\nDirectory:\nStart Block = %d, End Block = %d\n", start, end);
+
+    printf("\nFile Block Traversal:\n");
+    i = start;
+    while (i != -1) {
+        printf("Block %d -> ", disk[i].data);
+        i = disk[i].next;
+    }
+    printf("NULL\n");
+
+    return 0;
+}
