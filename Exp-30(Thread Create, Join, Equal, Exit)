@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <pthread.h>
+
+void* threadFunction(void* arg) {
+    pthread_t current_id = pthread_self();
+    pthread_t passed_id = *(pthread_t*)arg;
+
+    if (pthread_equal(current_id, passed_id)) {
+        printf("Thread IDs are equal.\n");
+    } else {
+        printf("Thread IDs are not equal.\n");
+    }
+
+    printf("Thread will now exit.\n");
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t thread;
+
+    pthread_create(&thread, NULL, threadFunction, &thread);  // (i) Create
+    pthread_join(thread, NULL);                               // (ii) Join
+
+    printf("Main thread: Joined with the created thread.\n");
+
+    return 0;
+}
