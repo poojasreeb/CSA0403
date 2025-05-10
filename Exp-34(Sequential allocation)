@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_RECORDS 100
+
+typedef struct {
+    int record_id;
+    char data[100];
+} Record;
+
+int main() {
+    Record file[MAX_RECORDS];
+    int total_records, i, access_id;
+
+    printf("Enter number of records: ");
+    scanf("%d", &total_records);
+
+    for (i = 0; i < total_records; i++) {
+        file[i].record_id = i;
+        printf("Enter data for record %d: ", i);
+        scanf("%s", file[i].data);
+    }
+
+    printf("Enter the record number to access (0 to %d): ", total_records - 1);
+    scanf("%d", &access_id);
+
+    if (access_id < 0 || access_id >= total_records) {
+        printf("Invalid record number.\n");
+    } else {
+        printf("Accessing records sequentially:\n");
+        for (i = 0; i <= access_id; i++) {
+            printf("Record %d: %s\n", file[i].record_id, file[i].data);
+        }
+    }
+
+    return 0;
+}
