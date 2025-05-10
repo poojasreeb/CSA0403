@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <string.h>
+
+int main() {
+    int fd = open("C:/Users/hi/OneDrive/Desktop/OS/os1.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    if (fd == -1) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    off_t offset = lseek(fd, 10, SEEK_SET);
+    if (offset == -1) {
+        perror("Error seeking in file");
+        close(fd);
+        return 1;
+    }
+    printf("Moved file pointer to position: %ld\n", offset);
+
+    struct stat fileStat;
+    if (stat("C:/Users/hi/OneDrive/Desktop/OS/os1.txt", &fileStat) == -1) {
+        perror("Error getting file status");
+        close(fd);
+        return 1;
+    }
+    printf("File size: %ld bytes\n", fileStat.st_size);
+    printf("Last modified: %ld\n", fileStat.st_mtime);
+
+    DIR *dir = opendir(".");
+    if (dir == NULL) {
+        perror("Error opening directory");
+        close(fd);
+        return 1;
+    }
+
+    printf("\nReading directory contents:\n");
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        printf("File: %s\n", entry->d_name);
+    }
+    closedir(dir);
+
+    close(fd);
+    return 0;
+}
